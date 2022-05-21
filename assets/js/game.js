@@ -6,12 +6,18 @@ var playerMoney = 10
 
 console.log(playerName, playerAttack, playerHealth);
 
-var enemyName = "DoctorRobuttnick";
+var enemyNames = ["DoctorRobuttnick", "Master Mitch Osterich", "Demigod Dan"];
+console.log(enemyNames)
+console.log(enemyNames.length)
+for(var i = 0; i < enemyNames.length; i++){
+    console.log(enemyNames[i]);
+}
 var enemyHealth = 50;
 var enemyAttack = 12;
 
+
 //fighting time
-var fight = function() {
+var fight = function(enemyNames) {
     window.alert("Welcome to Robot Gladiators!");
 };
 //Fight or run
@@ -20,18 +26,17 @@ if (promptFight === "fight" || promptFight === "FIGHT" || promptFight === "Fight
 // player attack phase
 enemyHealth = enemyHealth - playerAttack;
 console.log(
-playerName + " attacked " + enemyName + ".  " + enemyName + " now has " + enemyHealth + " health remaining. "
+playerName + " attacked " + enemyNames[0] + ".  " + enemyNames[0] + " now has " + enemyHealth + " health remaining. "
 );
 // enemy health check
 if (enemyHealth <= 0) {
-    window.alert(enemyName + " has died!!!")
+    window.alert(enemyNames[0] + " has died!!!")
 } else {
-    window.alert(enemyName + " still has " + enemyHealth + " heath left.")
+    window.alert(enemyNames[0] + " still has " + enemyHealth + " heath left.")
 }
 //enemy attack phase
 playerHealth = playerHealth - enemyAttack
-console.log(
-    enemyName + " attacked " + playerName + "." + playerName + " now has " + playerHealth + " health remaining. "
+console.log(enemyNames[0] + " attacked " + playerName + "." + playerName + " now has " + playerHealth + " health remaining. "
 );
 //player health check
 if (playerHealth <= 0) {
@@ -51,3 +56,5 @@ if (playerHealth <= 0) {
 } else{
     window.alert("You must choose a valid option. Please try again!");
 }
+for (var i = 0; i < enemyNames.length; i++) {
+    fight(enemyNames[i]);
