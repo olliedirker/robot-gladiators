@@ -73,21 +73,30 @@ var startGame = function () {
             //health reset
             enemyHealth = 50
 
-            //debugger
-
             fight(pickedEnemyName);
+
+            if (i < enemyNames.length - 1) {
+                // after each fight ask the player if they want to visit store
+                var storeConfirm = window.confirm("The fight is over, congratulations visit the store before the next round?");
+
+                if (storeConfirm) {
+                    shop();
+                }
+            }
         }
         else {
             window.alert("You have lost the robot gladiator battle! Game Over!");
-            break
+            break;
         }
-    };
+    }
+    endGame();
 }
 //endgame function
 var endGame = function () {
     window.alert("The fights are over lets see what the legions thought!")
+
     if (playerHealth > 0) {
-        window.alert("Your robot survived and gained you much glory and gold!")
+        window.alert("Your robot survived and gained you much glory and " + playerMoney + ".")
     }
     else {
         window.alert("Your Robot fell apart from the battle tear!")
@@ -98,8 +107,56 @@ var endGame = function () {
         //game restart
         startGame();
     }
-    else{
+    else {
         window.alert("Thank you for playing Robot Gladiator!! Come play again soon!!")
     }
     endGame();
+};
+
+//shop between battles
+var shop = function () {
+    //asking player what they would like to do
+    var shopOptionPrompt = window.prompt(
+        "Would you like to REFILL your health? UPGRADE your attack? or LEAVE the store? Please enter one 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice"
+    );
+    switch (shopOptionPrompt) {
+        case "REFILL":
+        case "Refill":
+        case "refill":
+            if (playerMoney >= 7) {
+                window.alert("Refilling player's health by 20 for 7 gold pieces.");
+
+                //the transaction
+                playerHealth = playerHealth + 20;
+                playerMoney = playerMoney - 7;
+            }
+            else {
+                window.alert("You do not have enough gold!");
+            }
+            break;
+        case "UPGRADE":
+        case "Upgrade":
+        case "upgrade":
+            if (playerMoney >= 7) {
+                window.alert("Upgrading player's attack by 6 for 7 gold.");
+
+                //transaction
+                playerAttack = playerAttack + 6;
+                playerMoney = playerMoney - 7;
+            }
+            else {
+                window.alert("You do not have enough gold!");
+            }
+            break;
+        case "LEAVE":
+        case "Leave":
+        case "leave":
+            window.alert("Leaving the store.")
+            break;
+        default:
+            window.alert("You did not pick a valid option. Try again.");
+            //retry the shop option to pick a valid option
+            shop();
+            break;
+    }
 };
