@@ -17,7 +17,7 @@ var fight = function (enemy) {
                 window.alert(playerInfo.name + " has decided to run from glory. Goodluck next battle!")
                 //subtract skip money
                 playerInfo.money = Math.max(0, playerInfo.money - 10);
-                console.log("Player money" + playerInfo.money);
+                console.log("playerInfo money", playerInfo.money);
                 break;
             }
         }
@@ -42,7 +42,8 @@ var fight = function (enemy) {
         //enemy attack phase
         var damage = randomNumber(enemy.attack - 3, enemy.attack);
 
-        enemy.health = Math.max(0, enemy.health - damage)
+        playerInfo.health = Math.max(0, playerInfo.health - damage);
+
         console.log(enemy.name + " attacked " + playerInfo.name + "." + playerInfo.name + " now has " + playerInfo.health + " health remaining. "
         );
         //player health check
@@ -53,16 +54,14 @@ var fight = function (enemy) {
             window.alert(playerInfo.name + " still has " + playerInfo.health + " health left.")
         }
     }//end while
-}//fight function ended
+};//fight function ended
 
 //start game function
 var startGame = function () {
     //player stats reset
-    playerInfo.health = 100;
-    playerInfo.attack = 10;
-    playerInfo.money = 10;
+
     playerInfo.reset();
-    for (var i = 0; i < enemy.names.length; i++) {
+    for (var i = 0; i < enemyInfo.length; i++) {
         if (playerInfo.health > 0) {
             window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
             var pickedEnemyObj = enemyInfo[i];
@@ -71,7 +70,7 @@ var startGame = function () {
 
             fight(pickedEnemyObj);
 
-            if (i < enemy.names.length - 1) {
+            if (playerInfo.health > 0 && i < enemyinfo.length - 1) {
                 // after each fight ask the player if they want to visit store
                 var storeConfirm = window.confirm("The fight is over, congratulations visit the store before the next round?");
 
@@ -159,33 +158,36 @@ var playerInfo = {
             window.alert("You do not have enough money!");
         }
     },
-        upgradeAttack: function () {
-            if (this.money >= 7) {
-                window.alert("Reinforcing your robot's attack power by 6 for 7 gold.")
-                this.attack += 6;
-                this.money -= 7;
-            }
-            else {
-                window.alert("You do not have enough coin!");
-            }
+    upgradeAttack: function () {
+        if (this.money >= 7) {
+            window.alert("Reinforcing your robot's attack power by 6 for 7 gold.")
+            this.attack += 6;
+            this.money -= 7;
         }
-    };
+        else {
+            window.alert("You do not have enough coin!");
+        }
+    }
+};
 
-        var enemyInfo = [
-            {
-                name: "DoctorRobuttnick",
-                attack: randomNumber(10, 12)
-            },
-            {
-                name: "Master Mitch Osterich",
-                attack: randomNumber(10, 15)
-            },
-            {
-                name: "Demigod Dan",
-                attack: randomNumber(12, 15)
-            }
-        ];
-        console.log(enemyInfo);
-        console.log(enemyInfo[0]);
-        console.log(enemyInfo[0].name)
-        console.log(enemyInfo[0]["attack"]);
+var enemyInfo = [
+    {
+        name: "DoctorRobuttnick",
+        attack: randomNumber(10, 12)
+    },
+    {
+        name: "Master Mitch Osterich",
+        attack: randomNumber(10, 15)
+    },
+    {
+        name: "Demigod Dan",
+        attack: randomNumber(12, 15)
+    }
+];
+console.log(enemyInfo);
+console.log(enemyInfo[0]);
+console.log(enemyInfo[0].name)
+console.log(enemyInfo[0]["attack"]);
+//info stats
+//run start  games
+startGame()
