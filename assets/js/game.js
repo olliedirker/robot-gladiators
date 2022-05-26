@@ -85,7 +85,7 @@ var startGame = function () {
         }
     }
     endGame();
-}
+};
 //endgame function
 var endGame = function () {
     window.alert("The fights are over lets see what the legions thought!")
@@ -98,6 +98,7 @@ var endGame = function () {
     }
     //play again??
     var playAgainConfirm = window.confirm("Would you like to assemble a new robot??");
+
     if (playAgainConfirm) {
         //game restart
         startGame();
@@ -105,7 +106,6 @@ var endGame = function () {
     else {
         window.alert("Thank you for playing Robot Gladiator!! Come play again soon!!")
     }
-    endGame();
 };
 
 //shop between battles
@@ -137,9 +137,18 @@ var shop = function () {
             break;
     }
 };
+var getPlayerName = function() {
+    var name = "";
 
+    while (name === "" || name === "null"){
+        name = prompt("What is your robot's name?")
+    }
+
+    console.log("Your robot's name is " + name);
+    return name;
+}
 var playerInfo = {
-    name: window.prompt("What is your robot gladiator's name?"),
+    name: getPlayerName,
     health: 100,
     attack: 10,
     money: 10,
