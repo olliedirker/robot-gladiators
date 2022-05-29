@@ -35,48 +35,61 @@ var fightOrSkip = function () {
 
 
 //define the fight function
-var fight = function(enemy) {
+var fight = function (enemy) {
+    //who goes first
+    var isPlayerTurn = true;
+
+    //randomly change order
+    if (Math.random() > 0.5) {
+        isPlayerTurn = false;
+    }
+
     while (playerInfo.health > 0 && enemy.health > 0) {
-        if (fightOrSkip()) {
-            break;
+        if (isPlayerTurn) {
+            if (fightOrSkip()) {
+                break;
+            }
+            // player attack phase
+            var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
+
+            enemy.health = Math.max(0, enemy.health - damage);
+            console.log(
+                playerInfo.name + " attacked " + enemy.name + ".  " + enemy.name + " now has " + enemy.health + " health remaining. "
+            )
+            // enemy health check
+            if (enemy.health <= 0) {
+                window.alert(enemy.name + " has died!!!")
+
+                //winner award 
+                playerInfo.money = playerInfo.money + 20
+                //end fight because enemy is dead
+                break;
+            } else {
+                window.alert(enemy.name + " still has " + enemy.health + " heath left.")
+            }
         }
-        // player attack phase
-        var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
+        else {
+            //enemy attack phase
+            var damage = randomNumber(enemy.attack - 3, enemy.attack);
 
-        enemy.health = Math.max(0, enemy.health - damage);
-        console.log(
-            playerInfo.name + " attacked " + enemy.name + ".  " + enemy.name + " now has " + enemy.health + " health remaining. "
-        )
-        // enemy health check
-        if (enemy.health <= 0) {
-            window.alert(enemy.name + " has died!!!")
+            playerInfo.health = Math.max(0, playerInfo.health - damage);
 
-            //winner award 
-            playerInfo.money = playerInfo.money + 20
-            //end fight because enemy is dead
-            break;
-        } else {
-            window.alert(enemy.name + " still has " + enemy.health + " heath left.")
+            console.log(enemy.name + " attacked " + playerInfo.name + "." + playerInfo.name + " now has " + playerInfo.health + " health remaining. "
+            );
+            //player health check
+            if (playerInfo.health <= 0) {
+                window.alert(playerInfo.name + " has died!!")
+                break;
+            } else {
+                window.alert(playerInfo.name + " still has " + playerInfo.health + " health left.")
+            }
         }
-        //enemy attack phase
-        var damage = randomNumber(enemy.attack - 3, enemy.attack);
-
-        playerInfo.health = Math.max(0, playerInfo.health - damage);
-
-        console.log(enemy.name + " attacked " + playerInfo.name + "." + playerInfo.name + " now has " + playerInfo.health + " health remaining. "
-        );
-        //player health check
-        if (playerInfo.health <= 0) {
-            window.alert(playerInfo.name + " has died!!")
-            break;
-        } else {
-            window.alert(playerInfo.name + " still has " + playerInfo.health + " health left.")
-        }
-    }//end while
+        isPlayerTurn = !isPlayerTurn
+    }
 };//fight function ended
 
 //start game function
-var startGame = function() {
+var startGame = function () {
     //player stats reset
 
     playerInfo.reset();
@@ -113,7 +126,7 @@ var startGame = function() {
     endGame();
 };
 //endgame function
-var endGame = function() {
+var endGame = function () {
     window.alert("The fights are over lets see what the legions thought!")
 
     if (playerInfo.health > 0) {
@@ -135,14 +148,14 @@ var endGame = function() {
 };
 
 //shop between battles
-var shop = function() {
+var shop = function () {
 
     //asking player what they would like to do
     var shopOptionPrompt = window.prompt(
         "Would you like to REFILL your health? UPGRADE your attack? or LEAVE the store? Please enter one 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice"
     );
     shopOptionPrompt = parseInt(shopOptionPrompt);
-    
+
     switch (shopOptionPrompt) {
         case 1:
             playerInfo.refillHealth();
@@ -160,7 +173,7 @@ var shop = function() {
             break;
     }
 };
-var getPlayerName = function() {
+var getPlayerName = function () {
     var name = "";
 
     while (name === "" || name === "null") {
