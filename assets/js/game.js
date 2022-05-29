@@ -5,21 +5,40 @@ var randomNumber = function (min, max) {
     return value;
 };
 
+//question responses
+var fightOrSkip = function () {
+    var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "Fight" or "SKIP" to choose.');
+
+    //conditional statement for invalid answers.
+    if (promptFight === '' || promptFight === null) {
+        window.alert('You need to provide a valid answer! Please try again.');
+        return fightOrSkip();
+    }
+    //to lower case
+    promptFight = promptFight.toLocaleLowerCase();
+
+    if (promptFight === "skip") {
+        var confirmSkip = window.confirm('Are you sure you do not wish to Gladiate??')
+        if (confirmSkip) {
+            window.alert(playerInfo.name + " has decided to run from glory. Goodluck next battle!")
+            //subtract skip money
+            playerInfo.money = Math.max(0, playerInfo.money - 10);
+            console.log("playerInfo money", playerInfo.money);
+
+
+            //return true if player wants to leave
+            return true;
+        }
+    }
+    return false;
+};
+
+
 //define the fight function
-var fight = function (enemy) {
+var fight = function(enemy) {
     while (playerInfo.health > 0 && enemy.health > 0) {
-        //Fight or run
-        var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose!")
-        //if you dont want to gladiate
-        if (promptFight === "skip" || promptFight === "SKIP" || promptFight === 'Skip') {
-            var confirmSkip = window.confirm('Are you sure you do not wish to Gladiate??')
-            if (confirmSkip) {
-                window.alert(playerInfo.name + " has decided to run from glory. Goodluck next battle!")
-                //subtract skip money
-                playerInfo.money = Math.max(0, playerInfo.money - 10);
-                console.log("playerInfo money", playerInfo.money);
-                break;
-            }
+        if (fightOrSkip()) {
+            break;
         }
         // player attack phase
         var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
@@ -57,16 +76,23 @@ var fight = function (enemy) {
 };//fight function ended
 
 //start game function
-var startGame = function () {
+var startGame = function() {
     //player stats reset
 
     playerInfo.reset();
+
     for (var i = 0; i < enemyInfo.length; i++) {
+        //check player stats
+        console.log(playerInfo);
+
         if (playerInfo.health > 0) {
             window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
+
             var pickedEnemyObj = enemyInfo[i];
             //health reset
             pickedEnemyObj.health = randomNumber(40, 60);
+
+            console.log(pickedEnemyObj);
 
             fight(pickedEnemyObj);
 
@@ -87,7 +113,7 @@ var startGame = function () {
     endGame();
 };
 //endgame function
-var endGame = function () {
+var endGame = function() {
     window.alert("The fights are over lets see what the legions thought!")
 
     if (playerInfo.health > 0) {
@@ -109,7 +135,7 @@ var endGame = function () {
 };
 
 //shop between battles
-var shop = function () {
+var shop = function() {
     //asking player what they would like to do
     var shopOptionPrompt = window.prompt(
         "Would you like to REFILL your health? UPGRADE your attack? or LEAVE the store? Please enter one 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice"
@@ -140,15 +166,15 @@ var shop = function () {
 var getPlayerName = function() {
     var name = "";
 
-    while (name === "" || name === "null"){
+    while (name === "" || name === "null") {
         name = prompt("What is your robot's name?")
     }
 
     console.log("Your robot's name is " + name);
     return name;
-}
+};
 var playerInfo = {
-    name: getPlayerName,
+    name: getPlayerName(),
     health: 100,
     attack: 10,
     money: 10,
@@ -193,10 +219,6 @@ var enemyInfo = [
         attack: randomNumber(12, 15)
     }
 ];
-console.log(enemyInfo);
-console.log(enemyInfo[0]);
-console.log(enemyInfo[0].name)
-console.log(enemyInfo[0]["attack"]);
 //info stats
 //run start  games
-startGame()
+startGame();
