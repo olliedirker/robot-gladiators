@@ -96,7 +96,7 @@ var startGame = function() {
 
             fight(pickedEnemyObj);
 
-            if (playerInfo.health > 0 && i < enemyinfo.length - 1) {
+            if (playerInfo.health > 0 && i < enemyInfo.length - 1) {
                 // after each fight ask the player if they want to visit store
                 var storeConfirm = window.confirm("The fight is over, congratulations visit the store before the next round?");
 
@@ -136,24 +136,21 @@ var endGame = function() {
 
 //shop between battles
 var shop = function() {
+
     //asking player what they would like to do
     var shopOptionPrompt = window.prompt(
         "Would you like to REFILL your health? UPGRADE your attack? or LEAVE the store? Please enter one 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice"
     );
+    shopOptionPrompt = parseInt(shopOptionPrompt);
+    
     switch (shopOptionPrompt) {
-        case "REFILL":
-        case "Refill":
-        case "refill":
+        case 1:
             playerInfo.refillHealth();
             break;
-        case "UPGRADE":
-        case "Upgrade":
-        case "upgrade":
+        case 2:
             playerInfo.upgradeAttack();
             break;
-        case "LEAVE":
-        case "Leave":
-        case "leave":
+        case 3:
             window.alert("Leaving the store.")
             break;
         default:
