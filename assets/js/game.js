@@ -127,13 +127,21 @@ var startGame = function () {
 };
 //endgame function
 var endGame = function () {
-    window.alert("The fights are over lets see what the legions thought!")
+    window.alert("The fights are over lets see what the legions thought!");
+    //use local storage to check for highscore if there isnt one use 0
+    var highScore = localStorage.getItem("highscore");
+    if (highScore === null) {
+        highScore = 0;
+    }
+    //if player has a new better highscore, record it
+    if (playerInfo.money > highScore) {
+        localStorage.setItem("highscore", playerInfo.money);
+        localStorage.setItem("name", playerInfo.name);
 
-    if (playerInfo.health > 0) {
-        window.alert("Your robot survived and gained you much glory and " + playerInfo.money + ".")
+        alert(playerInfo.name + " survived and gained you much glory and now has a highscore of " + highScore + "!");
     }
     else {
-        window.alert("Your Robot fell apart from the battle tear!")
+        alert(playerInfo.name + " did not beat the high score of " + highScore + ". Maybe next time!!");
     }
     //play again??
     var playAgainConfirm = window.confirm("Would you like to assemble a new robot??");
